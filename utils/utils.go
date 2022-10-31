@@ -341,6 +341,10 @@ func ReadConfig(cfg *types.Config, path string) error {
 		switch cfg.Chain.Name {
 		case "mainnet":
 			err = yaml.Unmarshal([]byte(config.MainnetChainYml), &cfg.Chain.Config)
+		case "p202-mainnet":
+			err = yaml.Unmarshal([]byte(config.P202mainnetChainYml), &cfg.Chain.Config)
+		case "p202-testnet":
+			err = yaml.Unmarshal([]byte(config.P202testnetChainYml), &cfg.Chain.Config)
 		case "prater":
 			err = yaml.Unmarshal([]byte(config.PraterChainYml), &cfg.Chain.Config)
 		case "ropsten":
@@ -372,6 +376,10 @@ func ReadConfig(cfg *types.Config, path string) error {
 		switch cfg.Chain.Name {
 		case "mainnet":
 			cfg.Chain.GenesisTimestamp = 1606824023
+		case "p202-mainnet":
+			cfg.Chain.GenesisTimestamp = 1667217600
+		case "p202-testnet":
+			cfg.Chain.GenesisTimestamp = 1667214000
 		case "prater":
 			cfg.Chain.GenesisTimestamp = 1616508000
 		case "ropsten":
@@ -773,6 +781,12 @@ func getABIFromEtherscan(address []byte) (*types.ContractMetadata, error) {
 
 	if Config.Chain.Config.DepositChainID == 5 {
 		baseUrl = "api-goerli.etherscan.io"
+	}
+	if Config.Chain.Config.DepositChainID == 202 {
+		baseUrl = "api.p202.io" // P202_TODO
+	}
+	if Config.Chain.Config.DepositChainID == 10202 {
+		baseUrl = "api.p202.io" // P202_TODO
 	}
 	resp, err := httpClient.Get(fmt.Sprintf("https://%s/api?module=contract&action=getsourcecode&address=0x%x&apikey=%s", baseUrl, address, ""))
 	if err != nil {
