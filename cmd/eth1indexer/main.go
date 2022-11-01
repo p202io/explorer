@@ -72,6 +72,10 @@ func main() {
 	chainId := ""
 	if *network == "mainnet" {
 		chainId = "1"
+	} else if *network == "p202-mainnet" {
+		chainId = "202"
+	} else if *network == "p202-testnet" {
+		chainId = "10202"
 	} else if *network == "goerli" {
 		chainId = "5"
 	} else if *network == "sepolia" {
